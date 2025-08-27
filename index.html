@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Dashboard</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    img { border: 1px solid #ccc; margin: 10px 0; max-width: 100%; }
+    .forecast { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Weather Dashboard</h1>
+
+  <h2>National Forecast Map</h2>
+  <img src="https://www.wpc.ncep.noaa.gov/noaa/national_forecast.jpg" alt="National Forecast">
+
+  <h2>Max Temperature (Today)</h2>
+  <img src="https://graphical.weather.gov/images/conus/MaxT1_conus.png" alt="Max Temp">
+
+  <h2>Local Forecast (South Bend, IN)</h2>
+  <div id="forecast" class="forecast">Loading...</div>
+
+  <script>
+    async function loadForecast() {
+      const url = "https://api.weather.gov/points/41.675032,-86.251962/forecast";
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const periods = data.properties.periods.slice(0, 5); // next 5 periods
+        const forecastDiv = document.getElementById("forecast");
+        forecastDiv.innerHTML = periods.map(p =>
+          `<p><strong>${p.name}:</strong> ${p.detailedForecast}</p>`
+        ).join("");
+      } catch (err) {
+        document.getElementById("forecast").innerText = "Could not load forecast.";
+      }
+    }
+    loadForecast();
+  </script>
+</body>
+</html>

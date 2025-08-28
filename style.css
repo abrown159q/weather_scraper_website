@@ -26,6 +26,19 @@ img {
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
+/* Center everything in the forecast section */
+#forecast {
+  text-align: center;
+}
+
+.forecast-tombstone {
+  display: inline-block;
+  margin: 15px;
+  vertical-align: top;
+  text-align: center;
+}
+
+
 /* Current conditions summary and details */
 #current_conditions-summary,
 #current_conditions_detail {

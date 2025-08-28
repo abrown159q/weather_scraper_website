@@ -4,6 +4,18 @@
   <meta charset="UTF-8">
   <title>Weather Dashboard Debug</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #log {
+      background: #111;
+      color: #0f0;
+      font-family: monospace;
+      padding: 10px;
+      height: 200px;
+      overflow-y: auto;
+      border: 1px solid #444;
+      margin-top: 1em;
+    }
+  </style>
 </head>
 <body>
   <h1>Weather Dashboard Debug Page</h1>
@@ -14,6 +26,8 @@
   <button id="btn-render">Test renderForecast()</button>
 
   <div id="output" style="border:1px solid #ccc; margin-top:1em; padding:1em;"></div>
+  <h2>Debug Log</h2>
+  <div id="log"></div>
 
   <script type="module">
     import { fetchForecast } from "./scripts/fetchForecast.js";
@@ -24,29 +38,42 @@
     const url = "https://forecast.weather.gov/MapClick.php?lat=41.675032&lon=-86.251962";
     const nwsBase = "https://forecast.weather.gov/";
     const parser = new DOMParser();
+    let cachedDoc = null;
 
-    let cachedDoc = null; // so each step doesn’t refetch
+    // --- Hook console.log to in-page log ---
+    const logDiv = document.getElementById("log");
+    function log(...args) {
+      const msg = args.map(a => (typeof a === "object" ? JSON.stringify(a) : a)).join(" ");
+      logDiv.innerHTML += msg + "<br>";
+      logDiv.scrollTop = logDiv.scrollHeight;
+      console.log(...args); // still output to DevTools
+    }
 
     document.getElementById("btn-fetch").onclick = async () => {
+      log("[Debug] Running fetchForecast()");
       const html = await fetchForecast(url);
       cachedDoc = parser.parseFromString(html, "text/html");
+      log("Fetched HTML length:", html.length);
       document.getElementById("output").innerText = "Fetched HTML length: " + html.length;
     };
 
     document.getElementById("btn-current").onclick = () => {
-      if (!cachedDoc) return alert("Run fetchForecast first!");
+      if (!cachedDoc) return log("⚠ Run fetchForecast first!");
+      log("[Debug] Running parseCurrentConditions()");
       const currentHTML = parseCurrentConditions(cachedDoc, nwsBase);
       document.getElementById("output").innerHTML = currentHTML;
     };
 
     document.getElementById("btn-extended").onclick = () => {
-      if (!cachedDoc) return alert("Run fetchForecast first!");
+      if (!cachedDoc) return log("⚠ Run fetchForecast first!");
+      log("[Debug] Running parseExtendedForecast()");
       const { extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase);
       document.getElementById("output").innerHTML = `<h3>${extendedHeader}</h3>${forecastHTML}`;
     };
 
     document.getElementById("btn-render").onclick = () => {
-      if (!cachedDoc) return alert("Run fetchForecast first!");
+      if (!cachedDoc) return log("⚠ Run fetchForecast first!");
+      log("[Debug] Running renderForecast()");
       const currentHTML = parseCurrentConditions(cachedDoc, nwsBase);
       const { extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase);
       renderForecast(currentHTML, extendedHeader, forecastHTML);

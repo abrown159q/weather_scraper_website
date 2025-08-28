@@ -1,14 +1,105 @@
+/* General page styling */
 body {
   font-family: Arial, sans-serif;
   margin: 20px;
+  background-color: #f5f5f5;
+  color: #333;
 }
 
+h1, h2, h3 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Images in main section */
 img {
+  max-width: 100%;
   border: 1px solid #ccc;
   margin: 10px 0;
-  max-width: 100%;
 }
 
+/* Forecast container */
 .forecast {
-  margin-top: 20px;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Current conditions summary and details */
+#current_conditions-summary,
+#current_conditions_detail {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+}
+
+#current_conditions-summary img {
+  width: 80px;
+  height: 80px;
+  margin-right: 10px;
+}
+
+#current_conditions_detail table {
+  border-collapse: collapse;
+}
+
+#current_conditions_detail td {
+  padding: 4px 8px;
+}
+
+/* Current conditions extra info */
+.current-conditions-extra p, .current-conditions-extra a {
+  display: block;
+  margin: 2px 0;
+  font-size: 0.9em;
+}
+
+/* Extended forecast tombstones horizontal layout */
+.forecast-tombstone {
+  display: inline-block;
+  vertical-align: top;
+  width: 140px; /* fixed width for uniform columns */
+  text-align: center;
+  margin: 10px 5px;
+  background: #e6f0fa;
+  border-radius: 6px;
+  padding: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Emphasize temperature and day */
+.myforecast-current-lrg, 
+.forecast-tombstone strong {
+  font-size: 1.8em;
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+
+.forecast-tombstone img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 5px;
+}
+
+.forecast-tombstone p {
+  font-size: 0.85em;
+  margin: 0;
+  line-height: 1.2em;
+}
+
+/* Responsive: stack tombstones on small screens */
+@media (max-width: 700px) {
+  .forecast-tombstone {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  #current_conditions-summary,
+  #current_conditions_detail {
+    display: block;
+    margin-right: 0;
+  }
 }

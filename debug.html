@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weather Dashboard Debug</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h1>Weather Dashboard Debug Page</h1>
+
+  <button id="btn-fetch">Test fetchForecast()</button>
+  <button id="btn-current">Test parseCurrentConditions()</button>
+  <button id="btn-extended">Test parseExtendedForecast()</button>
+  <button id="btn-render">Test renderForecast()</button>
+
+  <div id="output" style="border:1px solid #ccc; margin-top:1em; padding:1em;"></div>
+
+  <script type="module">
+    import { fetchForecast } from "./scripts/fetchForecast.js";
+    import { parseCurrentConditions } from "./scripts/parseCurrentConditions.js";
+    import { parseExtendedForecast } from "./scripts/parseExtendedForecast.js";
+    import { renderForecast } from "./scripts/renderForecast.js";
+
+    const url = "https://forecast.weather.gov/MapClick.php?lat=41.675032&lon=-86.251962";
+    const nwsBase = "https://forecast.weather.gov/";
+    const parser = new DOMParser();
+
+    let cachedDoc = null; // so each step doesn’t refetch
+
+    document.getElementById("btn-fetch").onclick = async () => {
+      const html = await fetchForecast(url);
+      cachedDoc = parser.parseFromString(html, "text/html");
+      document.getElementById("output").innerText = "Fetched HTML length: " + html.length;
+    };
+
+    document.getElementById("btn-current").onclick = () => {
+      if (!cachedDoc) return alert("Run fetchForecast first!");
+      const currentHTML = parseCurrentConditions(cachedDoc, nwsBase);
+      document.getElementById("output").innerHTML = currentHTML;
+    };
+
+    document.getElementById("btn-extended").onclick = () => {
+      if (!cachedDoc) return alert("Run fetchForecast first!");
+      const { extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase);
+      document.getElementById("output").innerHTML = `<h3>${extendedHeader}</h3>${forecastHTML}`;
+    };
+
+    document.getElementById("btn-render").onclick = () => {
+      if (!cachedDoc) return alert("Run fetchForecast first!");
+      const currentHTML = parseCurrentConditions(cachedDoc, nwsBase);
+      const { extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase);
+      renderForecast(currentHTML, extendedHeader, forecastHTML);
+    };
+  </script>
+</body>
+</html>

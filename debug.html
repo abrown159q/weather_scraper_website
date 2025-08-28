@@ -67,9 +67,15 @@
     document.getElementById("btn-extended").onclick = () => {
       if (!cachedDoc) return log("⚠ Run fetchForecast first!");
       log("[Debug] Running parseExtendedForecast()");
-      const { extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase);
+      
+      const { forecasts, extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase, log);
+
+      log("[Debug] Forecast objects array:");
+      log(JSON.stringify(forecasts, null, 2));
+
       document.getElementById("output").innerHTML = `<h3>${extendedHeader}</h3>${forecastHTML}`;
-    };
+};
+
 
     document.getElementById("btn-render").onclick = () => {
       if (!cachedDoc) return log("⚠ Run fetchForecast first!");

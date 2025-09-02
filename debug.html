@@ -21,6 +21,7 @@
   <h1>2D Atlantic Forecast Debug v2</h1>
 
   <button id="btn-test">Test 2D Atlantic Forecast</button>
+  <button id="btn-ohc">Test OHC Animation</button>
 
   <div id="atlantic-2d-container" style="margin-top:1em;">
     <!-- Local placeholder; will be replaced with live NHC image -->
@@ -28,11 +29,14 @@
          src="/xgtwo/two_atl_2d0.png" usemap="#twomap2d0" width="900" border="0">
   </div>
 
+  <div id="ohc-container" style="margin-top:1em; max-width: 900px;"></div>
+
   <h2>Debug Log</h2>
   <div id="log"></div>
 
   <script type="module">
     import { initAtlantic2D } from "./scripts/atlantic2d.js";
+    import { initOHCAnimation } from "./scripts/ohcAnimation.js";
 
     const logDiv = document.getElementById("log");
     function log(...args) {
@@ -47,6 +51,16 @@
       try {
         initAtlantic2D();
         log("[Debug] #twofig2d image exists:", document.getElementById("twofig2d") !== null);
+      } catch (err) {
+        log("[Error]", err);
+      }
+    };
+
+    document.getElementById("btn-ohc").onclick = () => {
+      log("[Debug] Initializing OHC Animation section…");
+      try {
+        initOHCAnimation("ohc-container"); // only calls the script method
+        log("[Debug] OHC container initialized.");
       } catch (err) {
         log("[Error]", err);
       }

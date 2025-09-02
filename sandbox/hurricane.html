@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlantic 2D Hurricane Map</title>
+<style>
+  body {
+    font-family: monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+  }
+  .ascii-art {
+    white-space: pre;
+    font-size: 14px;
+    line-height: 14px;
+    margin-top: 20px;
+    text-align: center;
+  }
+  img {
+    max-width: 100%;
+  }
+</style>
+</head>
+<body>
+
+<h1>Atlantic 2-Day Tropical Weather Outlook</h1>
+
+<img id="twofig2d" alt="2D Atlantic Map">
+
+<div class="ascii-art" id="asciiHurricane">
+    <!-- Example ASCII Art -->
+    ⠀⠀⠀⠀⣀⣀⣀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⠀<br>
+    ⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⠀⠀⠀<br>
+    ⠀⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧⠀<br>
+    ⢸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇⠀<br>
+    ⠈⠻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠁⠀
+</div>
+
+<script>
+  // Set the image source to the NHC 2D Atlantic map
+  const img = document.getElementById('twofig2d');
+
+  // NHC site image source (relative path from the page)
+  img.src = 'https://www.nhc.noaa.gov/xgtwo/two_atl_2d0.png';
+</script>
+
+</body>
+</html>

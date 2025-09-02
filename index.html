@@ -30,9 +30,8 @@
     <div id="forecast" class="forecast">Loading...</div>
   </section>
 
-  <!-- Future modular sections can be added here with unique ids -->
-
   <!-- 2D Atlantic Forecast -->
+
 <section id="atlantic-2d-forecast">
   <h2>2D Atlantic Forecast</h2>
   <div class="forecast-map">
@@ -48,20 +47,38 @@
   </div>
     <!-- 7D Atlantic Forecast -->
 <section id="atlantic-7d-forecast">
-  <h2>7Day Atlantic Forecast</h2>
+  <h2>7 Day Atlantic Forecast</h2>
   <div class="forecast-map">
     <img 
-      id="twofig2d" 
-      name="twofig2d" 
-      alt="2D Atlantic Forecast" 
+      id="twofig7d" 
+      name="twofig7d" 
+      alt="7D Atlantic Forecast" 
       src="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png" 
-      usemap="#twomap2d0" 
+      usemap="#twomap7d0" 
       width="900" 
       border="0"
     >
   </div>
   
 </section>
+
+  <!-- Ocean Heat Content Animation -->
+  <section id="ohc-animation">
+    <h2>Ocean Heat Content (Last 10 Days)</h2>
+    <div id="ohc-container" class="forecast-map" style="max-width: 900px; margin: auto;"></div>
+  </section>
+
+  <!-- Main script -->
+  <script type="module">
+    import { initOHCAnimation } from "./scripts/ohcAnimation.js";
+
+    // Run OHC animation automatically on load
+    window.addEventListener("DOMContentLoaded", () => {
+      initOHCAnimation("ohc-container");
+    });
+  </script>
+
+
   <script type="module" src="scripts/main.js"></script>
 </body>
 </html>

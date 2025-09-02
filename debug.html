@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Weather Dashboard Debug</title>
+  <title>2D Atlantic Forecast Debug</title>
   <link rel="stylesheet" href="style.css">
   <style>
     #log {
@@ -10,7 +10,7 @@
       color: #0f0;
       font-family: monospace;
       padding: 10px;
-      height: 200px;
+      height: 300px;
       overflow-y: auto;
       border: 1px solid #444;
       margin-top: 1em;
@@ -18,71 +18,38 @@
   </style>
 </head>
 <body>
-  <h1>Weather Dashboard Debug Page</h1>
+  <h1>2D Atlantic Forecast Debug v2</h1>
 
-  <button id="btn-fetch">Test fetchForecast()</button>
-  <button id="btn-current">Test parseCurrentConditions()</button>
-  <button id="btn-extended">Test parseExtendedForecast()</button>
-  <button id="btn-render">Test renderForecast()</button>
+  <button id="btn-test">Test 2D Atlantic Forecast</button>
 
-  <div id="output" style="border:1px solid #ccc; margin-top:1em; padding:1em;"></div>
+  <div id="atlantic-2d-container" style="margin-top:1em;">
+    <!-- Local placeholder; will be replaced with live NHC image -->
+    <img id="twofig2d" name="twofig2d" alt="2D Atlantic Forecast"
+         src="/xgtwo/two_atl_2d0.png" usemap="#twomap2d0" width="900" border="0">
+  </div>
+
   <h2>Debug Log</h2>
   <div id="log"></div>
 
   <script type="module">
-    import { fetchForecast } from "./scripts/fetchForecast.js";
-    import { parseCurrentConditions } from "./scripts/parseCurrentConditions.js";
-    import { parseExtendedForecast } from "./scripts/parseExtendedForecast.js";
-    import { renderForecast } from "./scripts/renderForecast.js";
+    import { initAtlantic2D } from "./scripts/atlantic2d.js";
 
-    const url = "https://forecast.weather.gov/MapClick.php?lat=41.675032&lon=-86.251962";
-    const nwsBase = "https://forecast.weather.gov/";
-    const parser = new DOMParser();
-    let cachedDoc = null;
-
-    // --- Hook console.log to in-page log ---
     const logDiv = document.getElementById("log");
     function log(...args) {
       const msg = args.map(a => (typeof a === "object" ? JSON.stringify(a) : a)).join(" ");
       logDiv.innerHTML += msg + "<br>";
       logDiv.scrollTop = logDiv.scrollHeight;
-      console.log(...args); // still output to DevTools
+      console.log(...args);
     }
 
-    document.getElementById("btn-fetch").onclick = async () => {
-      log("[Debug] Running fetchForecast()");
-      const html = await fetchForecast(url);
-      cachedDoc = parser.parseFromString(html, "text/html");
-      log("Fetched HTML length:", html.length);
-      document.getElementById("output").innerText = "Fetched HTML length: " + html.length;
-    };
-
-    document.getElementById("btn-current").onclick = () => {
-      if (!cachedDoc) return log("⚠ Run fetchForecast first!");
-      log("[Debug] Running parseCurrentConditions()");
-      const currentHTML = parseCurrentConditions(cachedDoc, nwsBase);
-      document.getElementById("output").innerHTML = currentHTML;
-    };
-
-    document.getElementById("btn-extended").onclick = () => {
-      if (!cachedDoc) return log("⚠ Run fetchForecast first!");
-      log("[Debug] Running parseExtendedForecast()");
-      
-      const { forecasts, extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase, log);
-
-      log("[Debug] Forecast objects array:");
-      log(JSON.stringify(forecasts, null, 2));
-
-      document.getElementById("output").innerHTML = `<h3>${extendedHeader}</h3>${forecastHTML}`;
-};
-
-
-    document.getElementById("btn-render").onclick = () => {
-      if (!cachedDoc) return log("⚠ Run fetchForecast first!");
-      log("[Debug] Running renderForecast()");
-      const currentHTML = parseCurrentConditions(cachedDoc, nwsBase);
-      const { extendedHeader, forecastHTML } = parseExtendedForecast(cachedDoc, nwsBase);
-      renderForecast(currentHTML, extendedHeader, forecastHTML);
+    document.getElementById("btn-test").onclick = () => {
+      log("[Debug] Initializing 2D Atlantic Forecast section…");
+      try {
+        initAtlantic2D();
+        log("[Debug] #twofig2d image exists:", document.getElementById("twofig2d") !== null);
+      } catch (err) {
+        log("[Error]", err);
+      }
     };
   </script>
 </body>

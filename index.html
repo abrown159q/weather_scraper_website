@@ -6,17 +6,62 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h1>Weather Dashboard v2</h1>
+  <h1>Weather Dashboard v3</h1>
 
-  <h2>National Forecast Map</h2>
-  <img src="https://www.wpc.ncep.noaa.gov/noaa/national_forecast.jpg" alt="National Forecast">
+  <!-- National Forecast Map -->
+  <section id="national-forecast">
+    <h2>National Forecast Map</h2>
+    <div class="forecast-map">
+      <img src="https://www.wpc.ncep.noaa.gov/noaa/national_forecast.jpg" alt="National Forecast">
+    </div>
+  </section>
 
-  <h2>Max Temperature (Today)</h2>
-  <img src="https://graphical.weather.gov/images/conus/MaxT1_conus.png" alt="Max Temp">
+  <!-- Max Temperature -->
+  <section id="max-temp">
+    <h2>Max Temperature (Today)</h2>
+    <div class="forecast-map">
+      <img src="https://graphical.weather.gov/images/conus/MaxT1_conus.png" alt="Max Temp">
+    </div>
+  </section>
 
-  <h2>Local Forecast (South Bend, IN)</h2>
-  <div id="forecast" class="forecast">Loading...</div>
+  <!-- Local Forecast -->
+  <section id="local-forecast">
+    <h2>Local Forecast (South Bend, IN)</h2>
+    <div id="forecast" class="forecast">Loading...</div>
+  </section>
 
+  <!-- Future modular sections can be added here with unique ids -->
+
+  <!-- 2D Atlantic Forecast -->
+<section id="atlantic-2d-forecast">
+  <h2>2D Atlantic Forecast</h2>
+  <div class="forecast-map">
+    <img 
+      id="twofig2d" 
+      name="twofig2d" 
+      alt="2D Atlantic Forecast" 
+      src="https://www.nhc.noaa.gov/xgtwo/two_atl_2d0.png" 
+      usemap="#twomap2d0" 
+      width="900" 
+      border="0"
+    >
+  </div>
+    <!-- 7D Atlantic Forecast -->
+<section id="atlantic-7d-forecast">
+  <h2>7Day Atlantic Forecast</h2>
+  <div class="forecast-map">
+    <img 
+      id="twofig2d" 
+      name="twofig2d" 
+      alt="2D Atlantic Forecast" 
+      src="https://www.nhc.noaa.gov/xgtwo/two_atl_7d0.png" 
+      usemap="#twomap2d0" 
+      width="900" 
+      border="0"
+    >
+  </div>
+  
+</section>
   <script type="module" src="scripts/main.js"></script>
 </body>
 </html>
